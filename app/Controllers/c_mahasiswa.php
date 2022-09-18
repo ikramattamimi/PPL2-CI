@@ -52,13 +52,13 @@ class c_mahasiswa extends BaseController
 
     public function template()
     {
-        echo view('v_template');
+        echo view('v_home');
     }
 
     public function mahasiswaTable()
     {
         // latihan 5
         $data['mahasiswa'] = $this->mahasiswaModel->getMahasiswa();
-        echo view('v_mahasiswa_table', $data);
+        echo view('v_mahasiswa_display', $data);
     }
 }

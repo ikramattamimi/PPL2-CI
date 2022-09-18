@@ -26,11 +26,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr height=350>
-        <th>
-          <h3>SELAMAT DATANG<h3>
-        </th>
-      </tr>
+      <?= $this->renderSection('content') ?>
     </tbody>
     <tfoot>
       <tr height=100 align="center">
