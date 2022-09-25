@@ -14,18 +14,23 @@ class c_mahasiswa extends BaseController
 
     public function display()
     {
-        echo ('<h1>Latihan 1B</h1>');
-        echo ('Hello world!!');
+        //     echo ('<h1>Latihan 1B</h1>');
+        //     echo ('Hello world!!');
 
-        // Latihan 2
-        echo view('v_hello_world');
+        //     // Latihan 2
+        //     echo view('v_hello_world');
 
-        // latihan 3, 4
-        echo view('v_mahasiswa');
+        //     // latihan 3, 4
+        //     echo view('v_mahasiswa');
 
-        // latihan 5
+        //     // latihan 5
+        //     $data['mahasiswa'] = $this->mahasiswaModel->getMahasiswa();
+        //     echo view('v_mahasiswa_db', $data);
+
+        $data['content_view'] = "v_mahasiswa";
         $data['mahasiswa'] = $this->mahasiswaModel->getMahasiswa();
-        echo view('v_mahasiswa_db', $data);
+
+        echo view('v_template', $data);
     }
 
     public function store()
@@ -46,19 +51,7 @@ class c_mahasiswa extends BaseController
 
         if ($result) {
             session()->setFlashdata('pesan', 'Data berhasil ditambahkan');
-            return redirect()->route('mahasiswa_table');
+            return redirect()->route('mahasiswa');
         }
-    }
-
-    public function template()
-    {
-        echo view('v_home');
-    }
-
-    public function mahasiswaTable()
-    {
-        // latihan 5
-        $data['mahasiswa'] = $this->mahasiswaModel->getMahasiswa();
-        echo view('v_mahasiswa_display', $data);
     }
 }

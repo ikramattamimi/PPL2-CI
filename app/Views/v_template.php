@@ -19,14 +19,18 @@
       <tr>
         <th>
           <h3 align="left" ,>
-            <a href="/"> HOME </a>
-            <a href="/mahasiswa/table" style="margin: 20px;">MAHASISWA</a>
+            <!-- <a href="/"> HOME </a>
+            <a href="/mahasiswa/table" style="margin: 20px;">MAHASISWA</a> -->
+            <?php echo anchor('', 'Home') ?>
+            <?php echo anchor('mahasiswa', 'Mahasiswa') ?>
           </h3>
         </th>
       </tr>
     </thead>
-    <tbody>
-      <?= $this->renderSection('content') ?>
+    <tbody align="center">
+      <?php
+      echo view($content_view);
+      ?>
     </tbody>
     <tfoot>
       <tr height=100 align="center">
