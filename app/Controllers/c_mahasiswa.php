@@ -29,6 +29,7 @@ class c_mahasiswa extends BaseController
 
         $data['content_view'] = "v_mahasiswa";
         $data['mahasiswa'] = $this->mahasiswaModel->getMahasiswa();
+        $data['title'] = "Mahasiswa";
 
         echo view('v_template', $data);
     }
