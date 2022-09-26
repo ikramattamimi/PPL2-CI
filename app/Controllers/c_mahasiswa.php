@@ -34,6 +34,14 @@ class c_mahasiswa extends BaseController
         echo view('v_template', $data);
     }
 
+    public function input()
+    {
+        $data['content_view'] = "v_mahasiswa_input";
+        $data['title'] = "Input Mahasiswa";
+
+        echo view('v_template', $data);
+    }
+
     public function store()
     {
         // $this->mahasiswaModel->save([
@@ -54,5 +62,17 @@ class c_mahasiswa extends BaseController
             session()->setFlashdata('pesan', 'Data berhasil ditambahkan');
             return redirect()->route('mahasiswa');
         }
+    }
+
+    function detail($id)
+    {
+        $data['mahasiswa'] = $this->mahasiswaModel->find($id);
+        if (empty($data['mahasiswa'])) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data Mahasiswa Tidak ditemukan !');
+        }
+        $data['content_view'] = "v_mahasiswa_detail";
+        $data['title'] = "Detail Mahasiswa";
+
+        echo view('v_template', $data);
     }
 }
