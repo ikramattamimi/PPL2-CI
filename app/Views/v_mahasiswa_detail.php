@@ -2,22 +2,25 @@
   <td>
     <h2>Detail Mahasiswa</h2>
     <br>
-
-    <table border="1" align="center">
-      <tr>
-        <th>NIM</th>
-        <td><?= $mahasiswa['nim']; ?></td>
-      </tr>
-      <tr>
-        <th>Nama</th>
-        <td><?= $mahasiswa['nama']; ?></td>
-      </tr>
-      <tr>
-        <th>Umur</th>
-        <td><?= $mahasiswa['umur']; ?></td>
-      </tr>
-    </table>
-    <button><?= anchor('mahasiswa', 'Kembali') ?></button>
+    <?php foreach ($mahasiswa as $mhs) { ?>
+      <table border="0">
+        <tr>
+          <th>NIM: </th>
+          <td><?= $mhs['nim']; ?></td>
+        </tr>
+        <tr>
+          <th>Nama: </th>
+          <td><?= $mhs['nama']; ?></td>
+        </tr>
+        <tr>
+          <th>Umur: </th>
+          <td><?= $mhs['umur']; ?></td>
+        </tr>
+      </table>
+    <?php } ?>
+    <br>
+    <a href="/mahasiswa"><button>Kembali</button></a>
+    <br>
     <br>
   </td>
 </tr>

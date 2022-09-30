@@ -66,13 +66,54 @@ class c_mahasiswa extends BaseController
 
     function detail($id)
     {
-        $data['mahasiswa'] = $this->mahasiswaModel->find($id);
+        $data['mahasiswa'] = $this->mahasiswaModel->getDetailMahasiswa($id);
         if (empty($data['mahasiswa'])) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Data Mahasiswa Tidak ditemukan !');
         }
         $data['content_view'] = "v_mahasiswa_detail";
         $data['title'] = "Detail Mahasiswa";
 
+        echo view('v_template', $data);
+    }
+
+    function delete($id)
+    {
+        $this->mahasiswaModel->deleteMahasiswa($id);
+        return redirect()->to('/mahasiswa');
+    }
+
+    function search()
+    {
+        $data['nama'] = $this->request->getVar('nama');
+        $data['mahasiswa'] = $this->mahasiswaModel->searchMahasiswa($data);
+        $data['title'] = "Mahasiswa";
+        $data['content_view'] = "v_mahasiswa";
+
+        echo view('v_template', $data);
+    }
+
+    public function update($id)
+    {
+        $data = [
+            'id' => $id,
+            'nim'  => $this->request->getVar('nim'),
+            'nama' => $this->request->getVar('nama'),
+            'umur' => $this->request->getVar('umur'),
+        ];
+
+        $result = $this->mahasiswaModel->updateMahasiswa($data);
+
+        if ($result) {
+            session()->setFlashdata('pesan', 'Data berhasil diupdate');
+            return redirect()->route('mahasiswa');
+        }
+    }
+
+    public function edit($id)
+    {
+        $data['title'] = 'Edit Data Mahasiswa';
+        $data['mahasiswa'] = $this->mahasiswaModel->find($id);
+        $data['content_view'] = "v_mahasiswa_edit";
         echo view('v_template', $data);
     }
 }

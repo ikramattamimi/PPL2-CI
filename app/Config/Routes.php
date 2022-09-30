@@ -35,12 +35,15 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('', 'c_home::display');
-$routes->get('mahasiswa', 'c_mahasiswa::display', ['as' => 'mahasiswa']);
-$routes->post('mahasiswa/store', 'c_mahasiswa::store');
-$routes->get('mahasiswa/input', 'c_mahasiswa::input');
-$routes->get('mahasiswa/detail/(:num)', 'c_mahasiswa::detail/$1');
-
+$routes->get('/', 'c_home::display');
+$routes->get('/mahasiswa', 'c_mahasiswa::display', ['as' => 'mahasiswa']);
+$routes->post('/mahasiswa/store', 'c_mahasiswa::store');
+$routes->get('/mahasiswa/input', 'c_mahasiswa::input');
+$routes->post('/mahasiswa', 'c_mahasiswa::search', ['as' => 'mahasiswa.search']);
+$routes->get('/mahasiswa/detail/(:num)', 'c_mahasiswa::detail/$1');
+$routes->get('/mahasiswa/delete/(:num)', 'c_mahasiswa::delete/$1');
+$routes->get('/mahasiswa/edit/(:num)', 'c_mahasiswa::edit/$1');
+$routes->post('/mahasiswa/update/(:num)', 'c_mahasiswa::update/$1');
 /*
  * --------------------------------------------------------------------
  * Additional Routing

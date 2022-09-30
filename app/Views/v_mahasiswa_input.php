@@ -1,9 +1,3 @@
-<!-- Latihan 6 -->
-<?php if (session()->getFlashdata('pesan')) : ?>
-  <script>
-    alert('<?= session()->getFlashdata('pesan'); ?>')
-  </script>
-<?php endif ?>
 <tr>
   <td>
     <h2>Form Input Mahasiswa</h2>
@@ -26,6 +20,8 @@
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
     <br>
-    <button><?= anchor('mahasiswa', 'Kembali') ?></button>
+    <a href="/mahasiswa"><button>Kembali</button></a>
+    <br>
+    <br>
   </td>
 </tr>
