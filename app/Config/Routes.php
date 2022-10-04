@@ -39,11 +39,15 @@ $routes->get('/', 'c_home::display');
 $routes->get('/mahasiswa', 'c_mahasiswa::display', ['as' => 'mahasiswa']);
 $routes->post('/mahasiswa/store', 'c_mahasiswa::store');
 $routes->get('/mahasiswa/input', 'c_mahasiswa::input');
-$routes->post('/mahasiswa', 'c_mahasiswa::search', ['as' => 'mahasiswa.search']);
 $routes->get('/mahasiswa/detail/(:num)', 'c_mahasiswa::detail/$1');
 $routes->get('/mahasiswa/delete/(:num)', 'c_mahasiswa::delete/$1');
+$routes->post('/mahasiswa', 'c_mahasiswa::display', ['as' => 'mahasiswa.search']);
 $routes->get('/mahasiswa/edit/(:num)', 'c_mahasiswa::edit/$1');
 $routes->post('/mahasiswa/update/(:num)', 'c_mahasiswa::update/$1');
+
+$routes->get('/login', 'c_login::index');
+$routes->post('/login/process', 'c_login::process');
+$routes->get('/logout', 'c_login::logout');
 /*
  * --------------------------------------------------------------------
  * Additional Routing

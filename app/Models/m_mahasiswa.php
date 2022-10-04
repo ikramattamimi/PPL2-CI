@@ -12,12 +12,12 @@ class m_mahasiswa extends Model
     protected $useAutoIncrement = true;
     protected $allowedFields = ['nim', 'nama', 'umur'];
 
-    function getMahasiswa()
+    function getMahasiswa($data)
     {
-
         $db = \Config\Database::connect();
-        $data = $db->query('select * from mahasiswa order by nim')->getResultArray();
-        // $data = $this->findAll();
+        $search = $data['nama'];
+        // dd($data['nama']);
+        $data = $db->query("select * from mahasiswa where nama like '%$search%' order by nim")->getResultArray();
         return $data;
     }
 

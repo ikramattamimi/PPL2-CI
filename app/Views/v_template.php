@@ -21,6 +21,7 @@
           <h3 align="left" ,>
             <?php echo anchor('', 'Home') ?>
             <?php echo anchor('mahasiswa', 'Mahasiswa') ?>
+            <a class="nav-link" href="<?= base_url(); ?>/logout">Logout</a>
           </h3>
         </th>
       </tr>

@@ -1,8 +1,3 @@
-<?php if (session()->getFlashdata('pesan')) : ?>
-  <script>
-    alert('<?= session()->getFlashdata('pesan'); ?>')
-  </script>
-<?php endif ?>
 <tr>
   <td>
     <br>
