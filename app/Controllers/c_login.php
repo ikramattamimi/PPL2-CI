@@ -9,7 +9,8 @@ class c_login extends BaseController
 
   public function index()
   {
-    return view('v_login');
+    $data['title'] = 'Lojin';
+    return view('v_login', $data);
   }
 
   public function process()

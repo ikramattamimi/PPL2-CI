@@ -54,10 +54,8 @@ class c_mahasiswa extends BaseController
 
     function detail($id)
     {
-        $data['mahasiswa'] = $this->mahasiswaModel->getDetailMahasiswa($id);
-        if (empty($data['mahasiswa'])) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data Mahasiswa Tidak ditemukan !');
-        }
+        $data['mahasiswa'] = $this->mahasiswaModel->find($id);
+
         $data['content_view'] = "v_mahasiswa_detail";
         $data['title'] = "Detail Mahasiswa";
 
