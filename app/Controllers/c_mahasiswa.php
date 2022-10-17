@@ -42,7 +42,11 @@ class c_mahasiswa extends BaseController
             'nim' => $this->request->getVar('nim'),
             'nama' => $this->request->getVar('nama'),
             'umur' => $this->request->getVar('umur'),
+            'foto' => $this->request->getFile('foto'),
+            'tinggi_badan' => $this->request->getVar('tinggi_badan'),
         ];
+
+        // dd($this->request->getFiles());
 
         $result = $this->mahasiswaModel->storeMahasiswa($data);
 

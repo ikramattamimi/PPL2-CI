@@ -27,9 +27,17 @@ class m_mahasiswa extends Model
         $nim = $data['nim'];
         $nama = $data['nama'];
         $umur = $data['umur'];
+        $foto = $data['foto'];
+        $tinggi_badan = $data['tinggi_badan'];
 
+        $dataBerkas = $foto;
+        $fileName = $dataBerkas->getRandomName();
         $db = \Config\Database::connect();
-        $result = $db->query("insert into mahasiswa (nim, nama, umur) values('$nim', '$nama', '$umur')");
+        $result = $db->query("insert into mahasiswa (nim, nama, umur, foto, tinggi_badan) 
+            values('$nim', '$nama', '$umur', '$fileName', '$tinggi_badan')");
+        if ($result) {
+            $dataBerkas->move('uploads/foto/', $fileName);
+        }
 
         return $result;
     }

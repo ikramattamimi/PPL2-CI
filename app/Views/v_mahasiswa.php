@@ -15,17 +15,21 @@
           <div class="table-responsive">
             <table class="table">
               <tr>
+                <th>Foto</th>
                 <th>NIM</th>
                 <th>Nama</th>
                 <th>Umur</th>
+                <th>Tinggi Badan</th>
                 <th class="col-2">Action</th>
               </tr>
               <!-- Latihan 5 -->
               <?php foreach ($mahasiswa as $mhs) { ?>
                 <tr>
+                  <td><img src="<?= '/uploads/foto/' . $mhs['foto']; ?>" alt="" width="50px"></td>
                   <td><?= $mhs['nim']; ?></td>
                   <td><?= $mhs['nama']; ?></td>
                   <td><?= $mhs['umur']; ?></td>
+                  <td><?= $mhs['tinggi_badan']; ?> cm</td>
                   <td>
                     <a href="mahasiswa/detail/<?= $mhs['id']; ?>" class="px-1" title="View" data-toggle="tooltip"><i class="fa-solid fa-eye"></i></a>
                     <a href="mahasiswa/edit/<?= $mhs['id']; ?>" class="px-1" title="Edit" data-toggle="tooltip"><i class="fa-solid fa-pencil"></i></a>
