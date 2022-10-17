@@ -1,9 +1,26 @@
 <section id="posts" class="posts">
   <div class="container" data-aos="fade-up">
     <div class="row g-5 d-flex justify-content-center">
+      <h2 class="text-center">List Mahasiswa</h2>
+
+      <!-- <div class="col-lg-4">
+        <canvas id="myChart"></canvas>
+      </div> -->
+
+      <!-- Trending Section -->
+      <div class="col-lg-4">
+        <div class="trending">
+          <h3>Chart Tinggi Badan</h3>
+          <ul class="trending-post">
+            <li>
+              <canvas id="myChart"></canvas>
+            </li>
+          </ul>
+        </div>
+
+      </div> <!-- End Trending Section -->
       <div class="col-lg-8">
         <div class="post-entry-1 lg">
-          <h2>List Mahasiswa</h2>
           <form action="<?= route_to('mahasiswa.search'); ?>" method="POST">
             <div class="input-group mb-3">
               <?= csrf_field(); ?>
@@ -69,3 +86,61 @@
   <?php } ?>
 
 </section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  <?php
+  $js_array_jtb = json_encode($jumlah_tinggi_badan);
+  echo "var dataobj = " . $js_array_jtb . ";\n";
+  ?>
+
+  var labels = Object.keys(dataobj)
+  var dataarray = Object.values(dataobj)
+
+  console.log(labels);
+  console.log(dataarray);
+  const data = {
+    labels: labels,
+    datasets: [{
+      label: 'Jumlah Tinggi Badan',
+      backgroundColor: '#000',
+      borderColor: '#000',
+      data: dataarray,
+    }]
+  };
+
+  const config = {
+    type: 'bar',
+    data: data,
+    options: {
+      scales: {
+        x: {
+          grid: {
+            display: false
+          }
+        },
+        y: {
+          suggestedMax: 20,
+          beginAtZero: true,
+          ticks: {
+            maxTicksLimit: 4,
+          },
+          grid: {
+            drawBorder: false,
+          },
+        },
+      },
+      datasets: {
+        bar: {
+          barThickness: 30
+        }
+      }
+    }
+  };
+</script>
+<script>
+  const myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+  );
+</script>

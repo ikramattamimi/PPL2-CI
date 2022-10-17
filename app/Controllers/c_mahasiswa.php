@@ -16,6 +16,7 @@ class c_mahasiswa extends BaseController
     {
         $data['nama'] = $this->request->getVar('nama');
         $data['mahasiswa'] = $this->mahasiswaModel->getMahasiswa($data);
+        $data['jumlah_tinggi_badan'] = $this->mahasiswaModel->getJumlahTinggiBadan();
         $data['title'] = "Mahasiswa";
         $data['content_view'] = "v_mahasiswa";
 
@@ -32,12 +33,6 @@ class c_mahasiswa extends BaseController
 
     public function store()
     {
-        // $this->mahasiswaModel->save([
-        //     'nim' => $this->request->getVar('nim'),
-        //     'nama' => $this->request->getVar('nama'),
-        //     'umur' => $this->request->getVar('umur'),
-        // ]);
-
         $data = [
             'nim' => $this->request->getVar('nim'),
             'nama' => $this->request->getVar('nama'),
@@ -45,8 +40,6 @@ class c_mahasiswa extends BaseController
             'foto' => $this->request->getFile('foto'),
             'tinggi_badan' => $this->request->getVar('tinggi_badan'),
         ];
-
-        // dd($this->request->getFiles());
 
         $result = $this->mahasiswaModel->storeMahasiswa($data);
 
@@ -68,7 +61,8 @@ class c_mahasiswa extends BaseController
 
     function delete($id)
     {
-        $this->mahasiswaModel->deleteMahasiswa($id);
+        $mahasiswa = $this->mahasiswaModel->find($id);
+        $this->mahasiswaModel->deleteMahasiswa($mahasiswa);
         return redirect()->to('/mahasiswa');
     }
 
@@ -79,7 +73,14 @@ class c_mahasiswa extends BaseController
             'nim'  => $this->request->getVar('nim'),
             'nama' => $this->request->getVar('nama'),
             'umur' => $this->request->getVar('umur'),
+            'tinggi_badan' => $this->request->getVar('tinggi_badan'),
+            'foto' => $this->request->getFile('foto'),
         ];
+
+        $mahasiswa_lama = $this->mahasiswaModel->find($id);
+        $data['foto_lama'] = $mahasiswa_lama['foto'];
+
+        // dd($data);
 
         $result = $this->mahasiswaModel->updateMahasiswa($data);
 

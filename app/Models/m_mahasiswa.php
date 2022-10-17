@@ -16,11 +16,26 @@ class m_mahasiswa extends Model
     {
         $db = \Config\Database::connect();
         $search = $data['nama'];
-        // dd($data['nama']);
         $data = $db->query("select * from mahasiswa where nama like '%$search%' order by nim")->getResultArray();
         return $data;
     }
 
+    function getJumlahTinggiBadan()
+    {
+        $db = \Config\Database::connect();
+
+        $tb = $db->query("SELECT DISTINCT tinggi_badan FROM mahasiswa")->getResultArray();
+        $tinggiBadan = array($tb[0]['tinggi_badan']);
+        for ($i = 1; $i < count($tb); $i++) {
+            array_push($tinggiBadan, $tb[$i]['tinggi_badan']);
+        }
+
+        for ($i = 0; $i < count($tinggiBadan); $i++) {
+            $tb = $tinggiBadan[$i];
+            $data[$tb] = $db->query("SELECT tinggi_badan FROM mahasiswa WHERE tinggi_badan = $tb")->getNumRows();
+        }
+        return $data;
+    }
 
     function storeMahasiswa($data)
     {
@@ -50,9 +65,11 @@ class m_mahasiswa extends Model
         return $result;
     }
 
-    function deleteMahasiswa($id)
+    function deleteMahasiswa($mahasiswa)
     {
         $db = \Config\Database::connect();
+        unlink('./uploads/foto/' . $mahasiswa['foto']);
+        $id = $mahasiswa['id'];
         $result = $db->query("delete from mahasiswa where id = $id");
 
         return $result;
@@ -62,7 +79,6 @@ class m_mahasiswa extends Model
     {
         $db = \Config\Database::connect();
         $search = $data['nama'];
-        // dd($data['nama']);
         $data = $db->query("select * from mahasiswa where nama like '%$search%' order by nim")->getResultArray();
         return $data;
     }
@@ -74,8 +90,23 @@ class m_mahasiswa extends Model
         $nim = $data['nim'];
         $nama = $data['nama'];
         $umur = $data['umur'];
+        $foto = $data['foto'];
+        $tinggi_badan = $data['tinggi_badan'];
 
-        $result = $db->query("update mahasiswa set nama='$nama', umur='$umur', nim='$nim' where id = '$id'");
+        $dataBerkas = $foto;
+        $fileName = $dataBerkas->getRandomName();
+        $db = \Config\Database::connect();
+        if ($foto->getName() !== "") {
+            $result = $db->query("update mahasiswa set nama='$nama', umur='$umur', nim='$nim', tinggi_badan='$tinggi_badan', foto='$fileName' where id = '$id'");
+            if ($result) {
+                $dataBerkas->move('uploads/foto/', $fileName);
+                if ($data['foto_lama'] !== "") {
+                    unlink('./uploads/foto/' . $data['foto_lama']);
+                }
+            }
+        } else {
+            $result = $db->query("update mahasiswa set nama='$nama', umur='$umur', nim='$nim', tinggi_badan='$tinggi_badan' where id = '$id'");
+        }
 
         return $result;
     }

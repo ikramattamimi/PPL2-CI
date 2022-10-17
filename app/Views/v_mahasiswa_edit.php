@@ -10,7 +10,7 @@
             </div>
             <div class="col-sm-8">
               <div class="table-responsive">
-                <form action="<?php echo '/mahasiswa/update/' . $mahasiswa['id'] ?>" method="POST">
+                <form action="<?php echo '/mahasiswa/update/' . $mahasiswa['id'] ?>" method="POST" enctype="multipart/form-data">
                   <?= csrf_field(); ?>
                   <div class="mb-3">
                     <label for="nim" class="form-label">NIM</label>
