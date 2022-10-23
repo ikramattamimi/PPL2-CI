@@ -94,15 +94,19 @@
   echo "var dataobj = " . $js_array_jtb . ";\n";
   ?>
 
-  var labels = Object.keys(dataobj)
-  var dataarray = Object.values(dataobj)
+  console.log(dataobj.tb)
+  var labels = []
+  var dataarray = []
 
-  console.log(labels);
-  console.log(dataarray);
+  dataobj.tb.map(function(tb) {
+    labels.push(tb.nama);
+    dataarray.push(tb.tinggi_badan);
+  });
+
   const data = {
     labels: labels,
     datasets: [{
-      label: 'Jumlah Tinggi Badan',
+      label: 'Tinggi Badan Mahasiswa',
       backgroundColor: '#000',
       borderColor: '#000',
       data: dataarray,
@@ -120,10 +124,10 @@
           }
         },
         y: {
-          suggestedMax: 20,
+          suggestedMax: 200,
           beginAtZero: true,
           ticks: {
-            maxTicksLimit: 4,
+            maxTicksLimit: 6,
           },
           grid: {
             drawBorder: false,

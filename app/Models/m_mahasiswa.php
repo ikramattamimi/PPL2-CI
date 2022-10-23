@@ -23,17 +23,9 @@ class m_mahasiswa extends Model
     function getJumlahTinggiBadan()
     {
         $db = \Config\Database::connect();
+        $data['tb'] = $db->query("SELECT nama, tinggi_badan FROM mahasiswa")->getResultArray();
+        // dd($data['tb']);
 
-        $tb = $db->query("SELECT DISTINCT tinggi_badan FROM mahasiswa")->getResultArray();
-        $tinggiBadan = array($tb[0]['tinggi_badan']);
-        for ($i = 1; $i < count($tb); $i++) {
-            array_push($tinggiBadan, $tb[$i]['tinggi_badan']);
-        }
-
-        for ($i = 0; $i < count($tinggiBadan); $i++) {
-            $tb = $tinggiBadan[$i];
-            $data[$tb] = $db->query("SELECT tinggi_badan FROM mahasiswa WHERE tinggi_badan = $tb")->getNumRows();
-        }
         return $data;
     }
 
@@ -48,10 +40,16 @@ class m_mahasiswa extends Model
         $dataBerkas = $foto;
         $fileName = $dataBerkas->getRandomName();
         $db = \Config\Database::connect();
-        $result = $db->query("insert into mahasiswa (nim, nama, umur, foto, tinggi_badan) 
+
+        if ($foto->getName() !== "") {
+            $result = $db->query("insert into mahasiswa (nim, nama, umur, foto, tinggi_badan)
             values('$nim', '$nama', '$umur', '$fileName', '$tinggi_badan')");
-        if ($result) {
-            $dataBerkas->move('uploads/foto/', $fileName);
+            if ($result) {
+                $dataBerkas->move('uploads/foto/', $fileName);
+            }
+        } else {
+            $result = $db->query("insert into mahasiswa (nim, nama, umur, tinggi_badan) 
+            values('$nim', '$nama', '$umur', '$tinggi_badan')");
         }
 
         return $result;
@@ -68,7 +66,9 @@ class m_mahasiswa extends Model
     function deleteMahasiswa($mahasiswa)
     {
         $db = \Config\Database::connect();
-        unlink('./uploads/foto/' . $mahasiswa['foto']);
+        if ($mahasiswa['foto'] !== "") {
+            unlink('./uploads/foto/' . $mahasiswa['foto']);
+        }
         $id = $mahasiswa['id'];
         $result = $db->query("delete from mahasiswa where id = $id");
 
