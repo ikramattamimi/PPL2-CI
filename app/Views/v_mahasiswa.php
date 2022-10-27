@@ -3,22 +3,6 @@
     <div class="row g-5 d-flex justify-content-center">
       <h2 class="text-center">List Mahasiswa</h2>
 
-      <!-- <div class="col-lg-4">
-        <canvas id="myChart"></canvas>
-      </div> -->
-
-      <!-- Trending Section -->
-      <div class="col-lg-4">
-        <div class="trending">
-          <h3>Chart Tinggi Badan</h3>
-          <ul class="trending-post">
-            <li>
-              <canvas id="myChart"></canvas>
-            </li>
-          </ul>
-        </div>
-
-      </div> <!-- End Trending Section -->
       <div class="col-lg-8">
         <div class="post-entry-1 lg">
           <form action="<?= route_to('mahasiswa.search'); ?>" method="POST">
@@ -29,6 +13,27 @@
               <a class="btn btn-outline-secondary" href="mahasiswa/input"><i class="fa-solid fa-plus"></i></a>
             </div>
           </form>
+
+          <?php
+          if (session()->getFlashdata('message')) {
+          ?>
+            <div class="alert alert-info">
+              <?= session()->getFlashdata('message') ?>
+            </div>
+          <?php
+          }
+          ?>
+          <form method="post" action="/mahasiswa/simpanExcel" enctype="multipart/form-data">
+            <?= csrf_field(); ?>
+            <div class="form-group">
+              <label>File Excel</label>
+              <input type="file" name="fileexcel" class="form-control" id="file" required accept=".xls, .xlsx" /></p>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-primary" type="submit">Upload</button>
+            </div>
+          </form>
+
           <div class="table-responsive">
             <table class="table">
               <tr>

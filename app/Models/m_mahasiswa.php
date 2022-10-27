@@ -20,6 +20,14 @@ class m_mahasiswa extends Model
         return $data;
     }
 
+    function getNilaiMahasiswa($data)
+    {
+        $db = \Config\Database::connect();
+        $search = $data['nama'];
+        $data = $db->query("select * from nilai_mahasiswa where nama like '%$search%' order by nim")->getResultArray();
+        return $data;
+    }
+
     function getJumlahTinggiBadan()
     {
         $db = \Config\Database::connect();

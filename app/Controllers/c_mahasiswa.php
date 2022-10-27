@@ -23,6 +23,25 @@ class c_mahasiswa extends BaseController
         echo view('v_template', $data);
     }
 
+    public function nilai()
+    {
+        $data['nama'] = $this->request->getVar('nama');
+        $data['mahasiswa'] = $this->mahasiswaModel->getNilaiMahasiswa($data);
+        $data['title'] = "Mahasiswa";
+        $data['content_view'] = "v_nilai";
+
+        echo view('v_template', $data);
+    }
+
+    public function grafik_tb()
+    {
+        $data['jumlah_tinggi_badan'] = $this->mahasiswaModel->getJumlahTinggiBadan();
+        $data['title'] = "Grafik Tinggi badan Mahasiswa";
+        $data['content_view'] = "v_grafik_tb";
+
+        echo view('v_template', $data);
+    }
+
     public function input()
     {
         $data['content_view'] = "v_mahasiswa_input";
@@ -96,5 +115,89 @@ class c_mahasiswa extends BaseController
         $data['mahasiswa'] = $this->mahasiswaModel->find($id);
         $data['content_view'] = "v_mahasiswa_edit";
         echo view('v_template', $data);
+    }
+
+    public function simpanExcel()
+    {
+        $file_excel = $this->request->getFile('fileexcel');
+        $ext = $file_excel->getClientExtension();
+        if ($ext == 'xls') {
+            $render = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+        } else {
+            $render = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+        }
+        $spreadsheet = $render->load($file_excel);
+
+        $data = $spreadsheet->getActiveSheet()->toArray();
+        foreach ($data as $x => $row) {
+            if ($x == 0) {
+                continue;
+            }
+
+            $nim = $row[0];
+            $nama = $row[1];
+            $umur = $row[2];
+            $tinggi_badan = $row[3];
+
+            $db = \Config\Database::connect();
+
+            $cekNis = $db->table('mahasiswa')->getWhere(['nim' => $nim])->getResult();
+
+            if (count($cekNis) > 0) {
+                session()->setFlashdata('message', '<b style="color:red">Data Gagal di Import NIM ada yang sama</b>');
+            } else {
+
+                $simpandata = [
+                    'nim' => $nim, 'nama' => $nama, 'umur' => $umur, 'tinggi_badan' => $tinggi_badan
+                ];
+
+                $result = $db->table('mahasiswa')->insert($simpandata);
+                session()->setFlashdata('message', 'Berhasil import excel');
+            }
+        }
+
+        return redirect()->to('/mahasiswa/data-mhs');
+    }
+
+    public function storeNilaiExcel()
+    {
+        $file_excel = $this->request->getFile('fileexcel');
+        $ext = $file_excel->getClientExtension();
+        if ($ext == 'xls') {
+            $render = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+        } else {
+            $render = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+        }
+        $spreadsheet = $render->load($file_excel);
+
+        $data = $spreadsheet->getActiveSheet()->toArray();
+        foreach ($data as $x => $row) {
+            if ($x == 0) {
+                continue;
+            }
+
+            $nim = $row[0];
+            $nama = $row[1];
+            $uts = $row[2];
+            $uas = $row[3];
+
+            $db = \Config\Database::connect();
+
+            $cekNis = $db->table('nilai_mahasiswa')->getWhere(['nim' => $nim])->getResult();
+
+            if (count($cekNis) > 0) {
+                session()->setFlashdata('message', '<b style="color:red">Data Gagal di Import NIM ada yang sama</b>');
+            } else {
+
+                $simpandata = [
+                    'nim' => $nim, 'nama' => $nama, 'uts' => $uts, 'uas' => $uas
+                ];
+
+                $result = $db->table('nilai_mahasiswa')->insert($simpandata);
+                session()->setFlashdata('message', 'Berhasil import excel');
+            }
+        }
+
+        return redirect()->to('/mahasiswa/nilai');
     }
 }

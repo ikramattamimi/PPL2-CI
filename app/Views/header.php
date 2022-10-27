@@ -8,8 +8,14 @@
         <nav id="navbar" class="navbar">
           <ul>
             <li><a href="/">Home</a></li>
-            <li><a href="/mahasiswa">Mahasiswa</a></li>
-            <li class="dropdown"><a href="category.html"><span>User</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+            <li class="dropdown"><a href="#"><span>Mahasiswa</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+              <ul>
+                <li><a class="nav-link" href="<?= base_url(); ?>/mahasiswa/data-mhs">Data Mahasiswa</a></li>
+                <li><a class="nav-link" href="<?= base_url(); ?>/mahasiswa/nilai">Data Nilai</a></li>
+                <li><a class="nav-link" href="<?= base_url(); ?>/mahasiswa/grafik-tinggi-badan">Grafik Tinggi Badan</a></li>
+              </ul>
+            </li>
+            <li class="dropdown"><a href="#"><span>User</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
               <ul>
                 <li><a class="nav-link" href="<?= base_url(); ?>/logout">Logout</a></li>
               </ul>
