@@ -36,19 +36,23 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'c_home::display');
-$routes->get('/mahasiswa/data-mhs', 'c_mahasiswa::display', ['as' => 'mahasiswa']);
-$routes->get('/mahasiswa/grafik-tinggi-badan', 'c_mahasiswa::grafik_tb', ['as' => 'mahasiswa.grafik']);
-$routes->get('/mahasiswa/nilai', 'c_mahasiswa::nilai', ['as' => 'mahasiswa.nilai']);
-$routes->post('/mahasiswa/store', 'c_mahasiswa::store');
-$routes->get('/mahasiswa/input', 'c_mahasiswa::input');
-$routes->get('/mahasiswa/detail/(:num)', 'c_mahasiswa::detail/$1');
-$routes->get('/mahasiswa/delete/(:num)', 'c_mahasiswa::delete/$1');
-$routes->post('/mahasiswa', 'c_mahasiswa::display', ['as' => 'mahasiswa.search']);
-$routes->post('/mahasiswa/nilai', 'c_mahasiswa::nilai', ['as' => 'mahasiswa.nilai.search']);
-$routes->get('/mahasiswa/edit/(:num)', 'c_mahasiswa::edit/$1');
-$routes->post('/mahasiswa/update/(:num)', 'c_mahasiswa::update/$1');
-$routes->post('/mahasiswa/simpanExcel', 'c_mahasiswa::simpanExcel');
-$routes->post('/mahasiswa/store-nilai-excel', 'c_mahasiswa::storeNilaiExcel');
+$routes->get('/barang/data-barang', 'c_barang::display', ['as' => 'barang']);
+$routes->post('/barang/data-barang', 'c_barang::display', ['as' => 'barang.search']);
+$routes->get('/barang/input', 'c_barang::input');
+$routes->post('/barang/store', 'c_barang::store');
+$routes->get('/barang/detail/(:num)', 'c_barang::detail/$1');
+$routes->get('/barang/delete/(:num)', 'c_barang::delete/$1');
+$routes->get('/barang/edit/(:num)', 'c_barang::edit/$1');
+$routes->post('/barang/update/(:num)', 'c_barang::update/$1');
+$routes->get('/barang/grafik-harga-barang', 'c_barang::grafik_hb', ['as' => 'barang.grafik']);
+$routes->get('/berita', 'c_barang::berita');
+$routes->get('/barang/excel', 'c_barang::excel');
+$routes->post('/barang/excel/simpanExcel', 'c_barang::excel2');
+
+$routes->get('/barang/nilai', 'c_mahasiswa::nilai', ['as' => 'barang.nilai']);
+$routes->post('/barang/nilai', 'c_mahasiswa::nilai', ['as' => 'barang.nilai.search']);
+$routes->post('/barang/simpanExcel', 'c_mahasiswa::simpanExcel');
+$routes->post('/barang/store-nilai-excel', 'c_mahasiswa::storeNilaiExcel');
 
 $routes->get('/login', 'c_login::index');
 $routes->post('/login/process', 'c_login::process');

@@ -17,15 +17,17 @@ class c_login extends BaseController
   {
     // $this->load->library('encryption');
     $user = new m_user();
-    $username = $this->request->getVar('username');
+    $id = $this->request->getVar('id');
+    $nama = $this->request->getVar('nama');
     $password = $this->request->getVar('password');
     $dataUser = $user->where([
-      'username' => $username,
+      'id' => $id,
+      'nama' => $nama,
     ])->first();
     if ($dataUser) {
       if (MD5($password) === $dataUser['password']) {
         session()->set([
-          'username' => $dataUser['username'],
+          'nama' => $dataUser['nama'],
           'logged_in' => TRUE
         ]);
         return redirect()->to(base_url('/'));

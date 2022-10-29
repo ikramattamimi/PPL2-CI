@@ -1,4 +1,6 @@
 # CodeIgniter 4 PPL2
+
 ## Database
-table = mahasiswa
+
+table = barang
 kolom = id, nim, nama, umur

@@ -56,11 +56,11 @@
         </a>
       </div>
       <div class="col-6">
-        <a href="/mahasiswa">
+        <a href="/barang/data-barang">
           <div class="card">
             <div class="card-body text-center">
               <h2 class="card-title"><i class="fa-solid fa-people-group"></i></h2>
-              <p>Mahasiswa</p>
+              <p>Barang</p>
             </div>
           </div>
         </a>

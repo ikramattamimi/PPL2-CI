@@ -43,14 +43,11 @@
       <div class="row gx-lg-5 align-items-center mb-5">
         <div class="col-lg-8 mb-5 mb-lg-0" style="z-index: 10">
           <h1 class="my-5 display-5 fw-bold ls-tight" style="color: hsl(218, 81%, 95%)">
-            The best offer <br />
-            <span style="color: hsl(218, 81%, 75%)">for your business</span>
+            ETS PPL 2 <br />
+            <span style="color: hsl(218, 81%, 75%)">for your score</span>
           </h1>
           <p class="mb-4 opacity-70" style="color: hsl(218, 81%, 85%)">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-            Temporibus, expedita iusto veniam atque, magni tempora mollitia
-            dolorum consequatur nulla, neque debitis eos reprehenderit quasi
-            ab ipsum nisi dolorem modi. Quos?
+
           </p>
         </div>
 
@@ -68,12 +65,16 @@
               <form method="post" action="<?= base_url(); ?>/login/process">
                 <?= csrf_field(); ?>
                 <div class="form-outline mb-4">
-                  <input type="text" name="username" id="username" class="form-control" required autofocus>
-                  <label class="form-label" for="username">Username</label>
+                  <label class="form-label" for="id">Id</label>
+                  <input type="text" name="id" id="id" class="form-control" required autofocus>
                 </div>
                 <div class="form-outline mb-4">
-                  <input type="password" name="password" id="password" class="form-control" required>
+                  <label class="form-label" for="nama">Nama</label>
+                  <input type="text" name="nama" id="nama" class="form-control" required autofocus>
+                </div>
+                <div class="form-outline mb-4">
                   <label class="form-label" for="password">Password</label>
+                  <input type="password" name="password" id="password" class="form-control" required>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block mb-4">
                   Sign in

@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class CreateTableMahasiswa extends Migration
+class CreateTableBarang extends Migration
 {
     public function up()
     {
@@ -15,25 +15,21 @@ class CreateTableMahasiswa extends Migration
                 'unsigned'       => TRUE,
                 'auto_increment' => TRUE
             ],
-            'nim' => [
-                'type'           => 'INT',
-                'constraint'     => 11,
-            ],
-            'nama' => [
+            'nama_barang' => [
                 'type'           => 'VARCHAR',
-                'constraint'     => 100
+                'constraint'     => 255
             ],
-            'umur' => [
-                'type'           => 'INT',
-                'constraint'     => 2
-            ],
-            'foto' => [
+            'harga_barang' => [
                 'type'           => 'VARCHAR',
-                'constraint'     => 50
+                'constraint'     => 255
             ],
-            'tinggi_badan' => [
+            'stock' => [
                 'type'           => 'INT',
-                'constraint'     => 3
+                'constraint'     => 255
+            ],
+            'gambar' => [
+                'type'           => 'VARCHAR',
+                'constraint'     => 255
             ],
             'created_at DATETIME default CURRENT_TIMESTAMP',
             'updated_at DATETIME default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'

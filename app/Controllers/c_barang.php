@@ -2,23 +2,22 @@
 
 namespace App\Controllers;
 
-use App\Models\m_mahasiswa;
+use App\Models\m_barang;
 
-class c_mahasiswa extends BaseController
+class c_barang extends BaseController
 {
-    protected $mahasiswaModel;
+    protected $barangModel;
     public function __construct()
     {
-        $this->mahasiswaModel = new m_mahasiswa();
+        $this->barangModel = new m_barang();
     }
 
     public function display()
     {
-        $data['nama'] = $this->request->getVar('nama');
-        $data['mahasiswa'] = $this->mahasiswaModel->getMahasiswa($data);
-        $data['jumlah_tinggi_badan'] = $this->mahasiswaModel->getJumlahTinggiBadan();
-        $data['title'] = "Mahasiswa";
-        $data['content_view'] = "v_mahasiswa";
+        $data['nama_barang'] = $this->request->getVar('nama_barang');
+        $data['barang'] = $this->barangModel->getBarang($data);
+        $data['title'] = "Barang";
+        $data['content_view'] = "v_barang";
 
         echo view('v_template', $data);
     }
@@ -26,26 +25,35 @@ class c_mahasiswa extends BaseController
     public function nilai()
     {
         $data['nama'] = $this->request->getVar('nama');
-        $data['mahasiswa'] = $this->mahasiswaModel->getNilaiMahasiswa($data);
+        $data['barang'] = $this->barangModel->getNilaiMahasiswa($data);
         $data['title'] = "Mahasiswa";
         $data['content_view'] = "v_nilai";
 
         echo view('v_template', $data);
     }
 
-    public function grafik_tb()
+    public function grafik_hb()
     {
-        $data['jumlah_tinggi_badan'] = $this->mahasiswaModel->getJumlahTinggiBadan();
-        $data['title'] = "Grafik Tinggi badan Mahasiswa";
-        $data['content_view'] = "v_grafik_tb";
+        $data['jumlah_harga_barang'] = $this->barangModel->getJumlahHargaBarang();
+        $data['title'] = "Grafik Harga Barang";
+        $data['content_view'] = "v_grafik_hb";
+
+        echo view('v_template', $data);
+    }
+
+    public function berita()
+    {
+        $data['berita'] = $this->barangModel->getBerita();
+        $data['title'] = "Berita";
+        $data['content_view'] = "v_berita";
 
         echo view('v_template', $data);
     }
 
     public function input()
     {
-        $data['content_view'] = "v_mahasiswa_input";
-        $data['title'] = "Input Mahasiswa";
+        $data['content_view'] = "v_barang_input";
+        $data['title'] = "Input Barang";
 
         echo view('v_template', $data);
     }
@@ -53,67 +61,67 @@ class c_mahasiswa extends BaseController
     public function store()
     {
         $data = [
-            'nim' => $this->request->getVar('nim'),
-            'nama' => $this->request->getVar('nama'),
-            'umur' => $this->request->getVar('umur'),
-            'foto' => $this->request->getFile('foto'),
-            'tinggi_badan' => $this->request->getVar('tinggi_badan'),
+            'nama_barang' => $this->request->getVar('nama_barang'),
+            'harga_barang' => $this->request->getVar('harga_barang'),
+            'stok' => $this->request->getVar('stok'),
+            'gambar' => $this->request->getFile('gambar'),
         ];
 
-        $result = $this->mahasiswaModel->storeMahasiswa($data);
+        $result = $this->barangModel->storeBarang($data);
 
         if ($result) {
             session()->setFlashdata('pesan', 'Data berhasil ditambahkan');
-            return redirect()->route('mahasiswa');
+            return redirect()->route('barang');
         }
     }
 
     function detail($id)
     {
-        $data['mahasiswa'] = $this->mahasiswaModel->find($id);
+        $data['barang'] = $this->barangModel->find($id);
 
-        $data['content_view'] = "v_mahasiswa_detail";
-        $data['title'] = "Detail Mahasiswa";
+        $data['content_view'] = "v_barang_detail";
+        $data['title'] = "Detail Barang";
+
+        // dd($data['barang']['nama_barang']);
 
         echo view('v_template', $data);
     }
 
     function delete($id)
     {
-        $mahasiswa = $this->mahasiswaModel->find($id);
-        $this->mahasiswaModel->deleteMahasiswa($mahasiswa);
-        return redirect()->to('/mahasiswa');
+        $barang = $this->barangModel->find($id);
+        $this->barangModel->deleteBarang($barang);
+        return redirect()->to('/barang/data-barang');
     }
 
     public function update($id)
     {
         $data = [
             'id' => $id,
-            'nim'  => $this->request->getVar('nim'),
-            'nama' => $this->request->getVar('nama'),
-            'umur' => $this->request->getVar('umur'),
-            'tinggi_badan' => $this->request->getVar('tinggi_badan'),
-            'foto' => $this->request->getFile('foto'),
+            'nama_barang' => $this->request->getVar('nama_barang'),
+            'harga_barang' => $this->request->getVar('harga_barang'),
+            'stok' => $this->request->getVar('stok'),
+            'gambar' => $this->request->getFile('gambar'),
         ];
 
-        $mahasiswa_lama = $this->mahasiswaModel->find($id);
-        $data['foto_lama'] = $mahasiswa_lama['foto'];
+        $barang_lama = $this->barangModel->find($id);
+        $data['gambar_lama'] = $barang_lama['gambar'];
 
         // dd($data);
 
-        $result = $this->mahasiswaModel->updateMahasiswa($data);
+        $result = $this->barangModel->updateBarang($data);
 
         if ($result) {
             session()->setFlashdata('pesan', 'Data berhasil diupdate');
-            return redirect()->route('mahasiswa');
+            return redirect()->route('barang');
         }
     }
 
     public function edit($id)
     {
         $data['title'] = 'Edit Data Mahasiswa';
-        $data['mahasiswa'] = $this->mahasiswaModel->find($id);
-        $data['content_view'] = "v_mahasiswa_edit";
+        $data['barang'] = $this->barangModel->find($id);
+        $data['content_view'] = "v_barang_edit";
         echo view('v_template', $data);
     }
 
@@ -141,7 +149,7 @@ class c_mahasiswa extends BaseController
 
             $db = \Config\Database::connect();
 
-            $cekNis = $db->table('mahasiswa')->getWhere(['nim' => $nim])->getResult();
+            $cekNis = $db->table('barang')->getWhere(['nim' => $nim])->getResult();
 
             if (count($cekNis) > 0) {
                 session()->setFlashdata('message', '<b style="color:red">Data Gagal di Import NIM ada yang sama</b>');
@@ -151,12 +159,41 @@ class c_mahasiswa extends BaseController
                     'nim' => $nim, 'nama' => $nama, 'umur' => $umur, 'tinggi_badan' => $tinggi_badan
                 ];
 
-                $result = $db->table('mahasiswa')->insert($simpandata);
+                $result = $db->table('barang')->insert($simpandata);
                 session()->setFlashdata('message', 'Berhasil import excel');
             }
         }
 
-        return redirect()->to('/mahasiswa/data-mhs');
+        return redirect()->to('/barang/data-barang');
+    }
+
+    public function excel()
+    {
+        $data['title'] = "Excel";
+        $data['content_view'] = "v_excel";
+        $data['excel'] = "v_excel";
+
+        echo view('v_template', $data);
+    }
+
+    public function excel2()
+    {
+        $file_excel = $this->request->getFile('fileexcel');
+        $ext = $file_excel->getClientExtension();
+        if ($ext == 'xls') {
+            $render = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+        } else {
+            $render = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+        }
+        $spreadsheet = $render->load($file_excel);
+
+        $data['excel'] = $spreadsheet->getActiveSheet()->toArray();
+        // dd($data['excel']);
+
+        $data['title'] = "Excel";
+        $data['content_view'] = "v_excel_import";
+
+        echo view('v_template', $data);
     }
 
     public function storeNilaiExcel()
@@ -198,6 +235,6 @@ class c_mahasiswa extends BaseController
             }
         }
 
-        return redirect()->to('/mahasiswa/nilai');
+        return redirect()->to('/barang/nilai');
     }
 }

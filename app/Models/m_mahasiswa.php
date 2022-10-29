@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class m_mahasiswa extends Model
 {
-    protected $table      = 'mahasiswa';
+    protected $table      = 'barang';
     protected $primaryKey = 'id';
 
     protected $useAutoIncrement = true;
@@ -16,7 +16,7 @@ class m_mahasiswa extends Model
     {
         $db = \Config\Database::connect();
         $search = $data['nama'];
-        $data = $db->query("select * from mahasiswa where nama like '%$search%' order by nim")->getResultArray();
+        $data = $db->query("select * from barang where nama like '%$search%' order by nim")->getResultArray();
         return $data;
     }
 
@@ -31,7 +31,7 @@ class m_mahasiswa extends Model
     function getJumlahTinggiBadan()
     {
         $db = \Config\Database::connect();
-        $data['tb'] = $db->query("SELECT nama, tinggi_badan FROM mahasiswa")->getResultArray();
+        $data['tb'] = $db->query("SELECT nama, tinggi_badan FROM barang")->getResultArray();
         // dd($data['tb']);
 
         return $data;
@@ -50,13 +50,13 @@ class m_mahasiswa extends Model
         $db = \Config\Database::connect();
 
         if ($foto->getName() !== "") {
-            $result = $db->query("insert into mahasiswa (nim, nama, umur, foto, tinggi_badan)
+            $result = $db->query("insert into barang (nim, nama, umur, foto, tinggi_badan)
             values('$nim', '$nama', '$umur', '$fileName', '$tinggi_badan')");
             if ($result) {
                 $dataBerkas->move('uploads/foto/', $fileName);
             }
         } else {
-            $result = $db->query("insert into mahasiswa (nim, nama, umur, tinggi_badan) 
+            $result = $db->query("insert into barang (nim, nama, umur, tinggi_badan) 
             values('$nim', '$nama', '$umur', '$tinggi_badan')");
         }
 
@@ -66,19 +66,19 @@ class m_mahasiswa extends Model
     function getDetailMahasiswa($id)
     {
         $db = \Config\Database::connect();
-        $result = $db->query("select * from mahasiswa where id = $id")->getResultArray();
+        $result = $db->query("select * from barang where id = $id")->getResultArray();
 
         return $result;
     }
 
-    function deleteMahasiswa($mahasiswa)
+    function deleteMahasiswa($barang)
     {
         $db = \Config\Database::connect();
-        if ($mahasiswa['foto'] !== "") {
-            unlink('./uploads/foto/' . $mahasiswa['foto']);
+        if ($barang['foto'] !== "") {
+            unlink('./uploads/foto/' . $barang['foto']);
         }
-        $id = $mahasiswa['id'];
-        $result = $db->query("delete from mahasiswa where id = $id");
+        $id = $barang['id'];
+        $result = $db->query("delete from barang where id = $id");
 
         return $result;
     }
@@ -87,7 +87,7 @@ class m_mahasiswa extends Model
     {
         $db = \Config\Database::connect();
         $search = $data['nama'];
-        $data = $db->query("select * from mahasiswa where nama like '%$search%' order by nim")->getResultArray();
+        $data = $db->query("select * from barang where nama like '%$search%' order by nim")->getResultArray();
         return $data;
     }
 
@@ -105,7 +105,7 @@ class m_mahasiswa extends Model
         $fileName = $dataBerkas->getRandomName();
         $db = \Config\Database::connect();
         if ($foto->getName() !== "") {
-            $result = $db->query("update mahasiswa set nama='$nama', umur='$umur', nim='$nim', tinggi_badan='$tinggi_badan', foto='$fileName' where id = '$id'");
+            $result = $db->query("update barang set nama='$nama', umur='$umur', nim='$nim', tinggi_badan='$tinggi_badan', foto='$fileName' where id = '$id'");
             if ($result) {
                 $dataBerkas->move('uploads/foto/', $fileName);
                 if ($data['foto_lama'] !== "") {
@@ -113,7 +113,7 @@ class m_mahasiswa extends Model
                 }
             }
         } else {
-            $result = $db->query("update mahasiswa set nama='$nama', umur='$umur', nim='$nim', tinggi_badan='$tinggi_badan' where id = '$id'");
+            $result = $db->query("update barang set nama='$nama', umur='$umur', nim='$nim', tinggi_badan='$tinggi_badan' where id = '$id'");
         }
 
         return $result;

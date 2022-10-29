@@ -1,7 +1,7 @@
 <section id="posts" class="posts">
   <div class="container" data-aos="fade-up">
     <div class="row g-5 d-flex justify-content-center">
-      <h2 class="text-center">Chart Tinggi Badan</h2>
+      <h2 class="text-center">Chart Harga Barang</h2>
 
       <!-- Trending Section -->
       <div class="col-lg">
@@ -19,23 +19,23 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
   <?php
-  $js_array_jtb = json_encode($jumlah_tinggi_badan);
+  $js_array_jtb = json_encode($jumlah_harga_barang);
   echo "var dataobj = " . $js_array_jtb . ";\n";
   ?>
 
-  console.log(dataobj.tb)
+  console.log(dataobj.hb)
   var labels = []
   var dataarray = []
 
-  dataobj.tb.map(function(tb) {
-    labels.push(tb.nama);
-    dataarray.push(tb.tinggi_badan);
+  dataobj.hb.map(function(hb) {
+    labels.push(hb.nama_barang);
+    dataarray.push(hb.harga_barang);
   });
 
   const data = {
     labels: labels,
     datasets: [{
-      label: 'Tinggi Badan Mahasiswa',
+      label: 'Grafik Harga Barang',
       backgroundColor: '#000',
       borderColor: '#000',
       data: dataarray,
@@ -43,7 +43,7 @@
   };
 
   const config = {
-    type: 'bar',
+    type: 'line',
     data: data,
     options: {
       scales: {
