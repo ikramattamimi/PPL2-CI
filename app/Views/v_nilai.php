@@ -8,8 +8,8 @@
           <form action="<?= route_to('mahasiswa.nilai.search'); ?>" method="POST">
             <div class="input-group mb-3">
               <?= csrf_field(); ?>
-              <input class="form-control" type="text" placeholder="Search.." name="nama">
-              <button class="btn btn-outline-secondary" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+              <!-- <input class="form-control" type="text" placeholder="Search.." name="nama"> -->
+              <!-- <button class="btn btn-outline-secondary" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button> -->
               <!-- <a class="btn btn-outline-secondary" href="mahasiswa/input"><i class="fa-solid fa-plus"></i></a> -->
             </div>
           </form>
@@ -23,14 +23,14 @@
           <?php
           }
           ?>
-          <form method="post" action="/mahasiswa/store-nilai-excel" enctype="multipart/form-data">
+          <form method="post" action="/mahasiswa/nilai/export-excel" enctype="multipart/form-data">
             <?= csrf_field(); ?>
             <div class="form-group">
-              <label>File Excel</label>
-              <input type="file" name="fileexcel" class="form-control" id="file" required accept=".xls, .xlsx" /></p>
+              <!-- <label>File Excel</label>
+              <input type="file" name="fileexcel" class="form-control" id="file" required accept=".xls, .xlsx" /></p> -->
             </div>
             <div class="form-group">
-              <button class="btn btn-primary" type="submit">Upload</button>
+              <button class="btn btn-primary" type="submit">Export Excel</button>
             </div>
           </form>
 
@@ -44,12 +44,15 @@
                 <!-- <th class="col-2">Action</th> -->
               </tr>
               <!-- Latihan 5 -->
-              <?php foreach ($mahasiswa as $mhs) { ?>
+              <?php foreach ($mahasiswa as $x => $mhs) { ?>
+                <?php if ($x == 0) {
+                  continue;
+                } ?>
                 <tr>
-                  <td><?= $mhs['nim']; ?></td>
-                  <td><?= $mhs['nama']; ?></td>
-                  <td><?= $mhs['uts']; ?></td>
-                  <td><?= $mhs['uas']; ?></td>
+                  <td><?= $mhs[0]; ?></td>
+                  <td><?= $mhs[1]; ?></td>
+                  <td><?= $mhs[2]; ?></td>
+                  <td><?= $mhs[3]; ?></td>
                 </tr>
               <?php } ?>
             </table>

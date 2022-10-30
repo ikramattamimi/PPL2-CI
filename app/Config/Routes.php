@@ -48,7 +48,7 @@ $routes->post('/mahasiswa/nilai', 'c_mahasiswa::nilai', ['as' => 'mahasiswa.nila
 $routes->get('/mahasiswa/edit/(:num)', 'c_mahasiswa::edit/$1');
 $routes->post('/mahasiswa/update/(:num)', 'c_mahasiswa::update/$1');
 $routes->post('/mahasiswa/simpanExcel', 'c_mahasiswa::simpanExcel');
-$routes->post('/mahasiswa/store-nilai-excel', 'c_mahasiswa::storeNilaiExcel');
+$routes->post('/mahasiswa/nilai/export-excel', 'c_mahasiswa::exportExcel');
 
 $routes->get('/login', 'c_login::index');
 $routes->post('/login/process', 'c_login::process');

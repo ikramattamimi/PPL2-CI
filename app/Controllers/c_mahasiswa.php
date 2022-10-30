@@ -26,9 +26,17 @@ class c_mahasiswa extends BaseController
     public function nilai()
     {
         $data['nama'] = $this->request->getVar('nama');
-        $data['mahasiswa'] = $this->mahasiswaModel->getNilaiMahasiswa($data);
         $data['title'] = "Mahasiswa";
         $data['content_view'] = "v_nilai";
+
+
+        $path = FCPATH . "/assets/excel/nilaimhs.xlsx";
+        $file_excel = new \CodeIgniter\Files\File($path);
+        $render = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+        
+        $spreadsheet = $render->load($file_excel);
+
+        $data['mahasiswa'] = $spreadsheet->getActiveSheet()->toArray();
 
         echo view('v_template', $data);
     }
@@ -117,50 +125,19 @@ class c_mahasiswa extends BaseController
         echo view('v_template', $data);
     }
 
-    public function simpanExcel()
+    public function exportExcel()
     {
-        $file_excel = $this->request->getFile('fileexcel');
-        $ext = $file_excel->getClientExtension();
-        if ($ext == 'xls') {
-            $render = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
-        } else {
-            $render = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-        }
-        $spreadsheet = $render->load($file_excel);
-
-        $data = $spreadsheet->getActiveSheet()->toArray();
-        foreach ($data as $x => $row) {
-            if ($x == 0) {
-                continue;
-            }
-
-            $nim = $row[0];
-            $nama = $row[1];
-            $umur = $row[2];
-            $tinggi_badan = $row[3];
-
-            $db = \Config\Database::connect();
-
-            $cekNis = $db->table('mahasiswa')->getWhere(['nim' => $nim])->getResult();
-
-            if (count($cekNis) > 0) {
-                session()->setFlashdata('message', '<b style="color:red">Data Gagal di Import NIM ada yang sama</b>');
-            } else {
-
-                $simpandata = [
-                    'nim' => $nim, 'nama' => $nama, 'umur' => $umur, 'tinggi_badan' => $tinggi_badan
-                ];
-
-                $result = $db->table('mahasiswa')->insert($simpandata);
-                session()->setFlashdata('message', 'Berhasil import excel');
-            }
-        }
-
-        return redirect()->to('/mahasiswa/data-mhs');
+        // $this->load->helper('download');
+        $path = FCPATH . "/assets/excel/nilaimhs.xlsx";
+        $name = 'nilaimhs.xlsx';
+        $data = file_get_contents($path); 
+        return $this->response->download($path, null);
     }
 
     public function storeNilaiExcel()
     {
+        $path = "/assets/excel/nilaimhs.xlsx";
+        $file = new \CodeIgniter\Files\File($path);
         $file_excel = $this->request->getFile('fileexcel');
         $ext = $file_excel->getClientExtension();
         if ($ext == 'xls') {
