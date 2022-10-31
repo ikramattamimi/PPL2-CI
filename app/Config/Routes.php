@@ -39,6 +39,7 @@ $routes->get('/', 'c_home::display');
 $routes->get('/mahasiswa/data-mhs', 'c_mahasiswa::display', ['as' => 'mahasiswa']);
 $routes->get('/mahasiswa/grafik-tinggi-badan', 'c_mahasiswa::grafik_tb', ['as' => 'mahasiswa.grafik']);
 $routes->get('/mahasiswa/nilai', 'c_mahasiswa::nilai', ['as' => 'mahasiswa.nilai']);
+$routes->post('/mahasiswa/nilai', 'c_mahasiswa::nilai', ['as' => 'mahasiswa.nilai']);
 $routes->post('/mahasiswa/store', 'c_mahasiswa::store');
 $routes->get('/mahasiswa/input', 'c_mahasiswa::input');
 $routes->get('/mahasiswa/detail/(:num)', 'c_mahasiswa::detail/$1');
@@ -48,7 +49,7 @@ $routes->post('/mahasiswa/nilai', 'c_mahasiswa::nilai', ['as' => 'mahasiswa.nila
 $routes->get('/mahasiswa/edit/(:num)', 'c_mahasiswa::edit/$1');
 $routes->post('/mahasiswa/update/(:num)', 'c_mahasiswa::update/$1');
 $routes->post('/mahasiswa/simpanExcel', 'c_mahasiswa::simpanExcel');
-$routes->post('/mahasiswa/nilai/export-excel', 'c_mahasiswa::exportExcel');
+$routes->get('/mahasiswa/nilai/export-excel', 'c_mahasiswa::exportExcel');
 
 $routes->get('/login', 'c_login::index');
 $routes->post('/login/process', 'c_login::process');

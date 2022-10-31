@@ -23,14 +23,15 @@
           <?php
           }
           ?>
-          <form method="post" action="/mahasiswa/nilai/export-excel" enctype="multipart/form-data">
+          <form method="post" action="/mahasiswa/nilai" enctype="multipart/form-data">
             <?= csrf_field(); ?>
             <div class="form-group">
-              <!-- <label>File Excel</label>
-              <input type="file" name="fileexcel" class="form-control" id="file" required accept=".xls, .xlsx" /></p> -->
+              <label>File Excel</label>
+              <input type="file" name="fileexcel" class="form-control" id="file" required accept=".xls, .xlsx" /></p>
             </div>
             <div class="form-group">
-              <button class="btn btn-primary" type="submit">Export Excel</button>
+              <button type="submit" class="btn btn-primary">Import Excel</button>
+              <a href="/mahasiswa/nilai/export-excel" class="btn btn-primary" type="submit">Export Excel</a>
             </div>
           </form>
 

@@ -3,10 +3,13 @@
 namespace App\Controllers;
 
 use App\Models\m_mahasiswa;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class c_mahasiswa extends BaseController
 {
     protected $mahasiswaModel;
+
     public function __construct()
     {
         $this->mahasiswaModel = new m_mahasiswa();
@@ -28,15 +31,27 @@ class c_mahasiswa extends BaseController
         $data['nama'] = $this->request->getVar('nama');
         $data['title'] = "Mahasiswa";
         $data['content_view'] = "v_nilai";
+        if ($this->request->getFile('fileexcel') !== null) {
+            $file_excel = $this->request->getFile('fileexcel');
+            $ext = $file_excel->getClientExtension();
+            if ($ext == 'xls') {
+                $render = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+            } else {
+                $render = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+            }
+        } else {
+            $path = FCPATH . "/assets/excel/nilaimhs.xlsx";
+            $file_excel = new \CodeIgniter\Files\File($path);
+            $render = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+        }
+        $data['excel_file'] = $this->request->getFile('fileexcel');
+        // dd($data['excel_file']);
 
-
-        $path = FCPATH . "/assets/excel/nilaimhs.xlsx";
-        $file_excel = new \CodeIgniter\Files\File($path);
-        $render = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-        
         $spreadsheet = $render->load($file_excel);
 
         $data['mahasiswa'] = $spreadsheet->getActiveSheet()->toArray();
+        session()->set('arrayExcel', $data['mahasiswa']);
+        // dd(session('arrayExcel'));
 
         echo view('v_template', $data);
     }
@@ -127,11 +142,38 @@ class c_mahasiswa extends BaseController
 
     public function exportExcel()
     {
-        // $this->load->helper('download');
-        $path = FCPATH . "/assets/excel/nilaimhs.xlsx";
-        $name = 'nilaimhs.xlsx';
-        $data = file_get_contents($path); 
-        return $this->response->download($path, null);
+
+        $spreadsheet = new Spreadsheet();
+        // tulis header/nama kolom 
+        $spreadsheet->setActiveSheetIndex(0)
+            ->setCellValue('A1', 'NIM')
+            ->setCellValue('B1', 'Nama')
+            ->setCellValue('C1', 'UTS')
+            ->setCellValue('D1', 'UAS');
+
+        $column = 2;
+        // tulis data mobil ke cell
+        foreach (session('arrayExcel') as $x => $data) {
+            if ($x == 0) {
+                continue;
+            }
+            $spreadsheet->setActiveSheetIndex(0)
+                ->setCellValue('A' . $column, $data[0])
+                ->setCellValue('B' . $column, $data[1])
+                ->setCellValue('C' . $column, $data[2])
+                ->setCellValue('D' . $column, $data[3]);
+            $column++;
+        }
+        // tulis dalam format .xlsx
+        $writer = new Xlsx($spreadsheet);
+        $fileName = 'Nilai Mahasiswa';
+
+        // Redirect hasil generate xlsx ke web client
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename=' . $fileName . '.xlsx');
+        header('Cache-Control: max-age=0');
+
+        $writer->save('php://output');
     }
 
     public function storeNilaiExcel()
